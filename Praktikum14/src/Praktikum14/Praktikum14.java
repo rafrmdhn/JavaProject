@@ -59,6 +59,7 @@ public class Praktikum14 extends Application {
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
+        stage.setTitle("Rafi Ramadhan-2117051044");
         stage.show();
     }
 
