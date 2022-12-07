@@ -43,7 +43,7 @@ public class FormInputController {
     void sendData(ActionEvent event) throws IOException {
         Mahasiswa mhs = new Mahasiswa(fieldNpm.getText(), fieldNama.getText(), fieldAlamat.getText());
         
-        FXMLLoader loader = FXMLLoader.load(getClass().getResource("Output.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Output.fxml"));
         Parent root = loader.load();
         
         OutputController outputController = loader.getController();
