@@ -14,7 +14,7 @@ public class Mahasiswa {
     private String Npm;
     private String Alamat;
 
-    public Mahasiswa(String Nama, String Npm, String Alamat) {
+    public Mahasiswa(String Npm, String Nama, String Alamat) {
         this.Nama = Nama;
         this.Npm = Npm;
         this.Alamat = Alamat;
