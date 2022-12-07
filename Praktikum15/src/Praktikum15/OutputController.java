@@ -39,8 +39,7 @@ public class OutputController {
 
     @FXML
     void openForm(ActionEvent event) throws IOException {
-        FXMLLoader loader = FXMLLoader.load(getClass().getResource("FormInput.fxml"));
-        Parent root = loader.load();
+        Parent root = FXMLLoader.load(getClass().getResource("FormInput.fxml"));
         
         Stage stage = (Stage) btnNew.getScene().getWindow();
         stage.setScene(new Scene(root));
