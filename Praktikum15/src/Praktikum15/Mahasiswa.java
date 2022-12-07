@@ -32,8 +32,8 @@ public class Mahasiswa {
         return Npm;
     }
 
-    public void setNpm(String NPM) {
-        this.Npm = NPM;
+    public void setNpm(String Npm) {
+        this.Npm = Npm;
     }
 
     public String getAlamat() {
