@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.adminLoginController">
+   <children>
+      <Text layoutX="197.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOKO SEJAHTERA" wrappingWidth="206.7999267578125">
+         <font>
+            <Font name="Bebas Neue Regular" size="40.0" />
+         </font>
+      </Text>
+      <Button fx:id="btnInputProduk" layoutX="84.0" layoutY="331.0" mnemonicParsing="false" onAction="#menampilkanPageInputProduk" prefHeight="26.0" prefWidth="114.0" text="Input Product" />
+      <Button fx:id="btnViewData" layoutX="404.0" layoutY="331.0" mnemonicParsing="false" onAction="#menampilkanPageAllDataProduk" text="View Data Product" />
+      <Text layoutX="277.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login as" />
+      <Text layoutX="284.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin" />
+      <Button fx:id="btnBack" layoutX="515.0" layoutY="26.0" mnemonicParsing="false" onAction="#menampilkanHomePage" text="Back" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.inputMakananController">
+   <children>
+      <Text layoutX="225.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="INPUT PRODUK">
+         <font>
+            <Font name="Bebas Neue Regular" size="40.0" />
+         </font>
+      </Text>
+      <Text layoutX="94.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kategori" />
+      <ComboBox fx:id="dropdownKategori" layoutX="181.0" layoutY="87.0" onAction="#pilihKategori" prefWidth="150.0" promptText="Makanan" />
+      <Text layoutX="51.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Id :" />
+      <Text layoutX="51.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nama :" />
+      <Text layoutX="51.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Harga :" />
+      <Text layoutX="313.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jumlah :" />
+      <Text layoutX="314.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Diskon :" />
+      <Text layoutX="312.0" layoutY="241.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Daya Tahan :" />
+      <TextField fx:id="fieldId" layoutX="137.0" layoutY="148.0" prefHeight="26.0" prefWidth="150.0" />
+      <TextField fx:id="fieldNama" layoutX="137.0" layoutY="187.0" prefHeight="26.0" prefWidth="150.0" />
+      <TextField fx:id="fieldHarga" layoutX="137.0" layoutY="227.0" prefHeight="26.0" prefWidth="150.0" />
+      <TextField fx:id="fieldJumlah" layoutX="399.0" layoutY="148.0" prefHeight="26.0" prefWidth="150.0" />
+      <TextField fx:id="fieldDiskon" layoutX="399.0" layoutY="186.0" prefHeight="26.0" prefWidth="150.0" />
+      <TextField fx:id="fieldDt" layoutX="399.0" layoutY="225.0" prefHeight="26.0" prefWidth="150.0" />
+      <Button fx:id="btnAdd" layoutX="324.0" layoutY="347.0" mnemonicParsing="false" onAction="#addData" prefHeight="26.0" prefWidth="66.0" text="Add" />
+      <Button fx:id="btnCancel" layoutX="407.0" layoutY="347.0" mnemonicParsing="false" onAction="#cancelInput" prefHeight="26.0" prefWidth="66.0" text="Cancel" />
+      <Button fx:id="btnBack" layoutX="489.0" layoutY="347.0" mnemonicParsing="false" onAction="#backToHome" prefHeight="26.0" prefWidth="66.0" text="Back" />
+   </children>
+</AnchorPane>
