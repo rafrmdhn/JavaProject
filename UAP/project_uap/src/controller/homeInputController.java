@@ -45,7 +45,7 @@ public class homeInputController implements Initializable {
                 
                 if (selected.equals("Admin")) {
                     try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/UI/adminLogin.fxml"));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/UI/login.fxml"));
                         Parent root = loader.load();
                         Stage stage = (Stage) boxPilih.getScene().getWindow();
                         stage.setScene(new Scene(root));
