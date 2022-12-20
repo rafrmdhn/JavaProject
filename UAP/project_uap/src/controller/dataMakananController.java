@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
+import db.MakananModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,10 +22,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import project_uap.Makanan;
 
 public class dataMakananController implements Initializable{
+    MakananModel makanan = new MakananModel();
     ObservableList<String> kategoriList = FXCollections.observableArrayList("Barang", "Makanan");
 
     @FXML
@@ -32,6 +35,9 @@ public class dataMakananController implements Initializable{
 
     @FXML
     private ComboBox<String> dropdownKategori;
+
+    @FXML
+    private Text lblTotalMakanan;
 
     @FXML
     private TableView<Makanan> tableAllDataProduk;
@@ -85,31 +91,11 @@ public class dataMakananController implements Initializable{
             }
         });
         showMakanan();
-    }
-
-    public ObservableList<Makanan> getProdukList(){
-        ObservableList<Makanan> kategoriList = FXCollections.observableArrayList();
-        Connection CONN = getConnection();
-        String query = "SELECT * FROM Makanan";
-        Statement st;
-        ResultSet rs; 
-        
-        try{
-            st = CONN.createStatement();
-            rs = st.executeQuery(query);
-            Makanan makanan;
-            while(rs.next()){
-                makanan = new Makanan(rs.getString("nama_produk"),rs.getDouble("harga"), rs.getInt("jumlah"), rs.getDouble("diskon"), rs.getInt("id"), rs.getInt("daya_tahan"));
-                kategoriList.add(makanan);
-            }
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-        return kategoriList;
+        totalMakanan();
     }
 
     public void showMakanan(){
-        ObservableList<Makanan> list = getProdukList();
+        ObservableList<Makanan> list = makanan.getMakanan();
         tblIdProduk.setCellValueFactory(new PropertyValueFactory<Makanan ,Integer>("id"));
         tblNamaProduk.setCellValueFactory(new PropertyValueFactory<Makanan ,String>("nama_produk"));
         tblHargaProduk.setCellValueFactory(new PropertyValueFactory<Makanan ,Double>("harga"));
@@ -117,6 +103,25 @@ public class dataMakananController implements Initializable{
         tblDt.setCellValueFactory(new PropertyValueFactory<Makanan ,Integer>("daya_tahan"));
         
         tableAllDataProduk.setItems(list);
+    }
+
+    public void totalMakanan(){
+        int count = 0;
+        String query = "SELECT * FROM Makanan";
+        Connection CONN = getConnection();
+        Statement st;
+        ResultSet rs;
+
+        try{
+            st = CONN.createStatement();
+            rs = st.executeQuery(query);
+            while(rs.next()){
+                count++; 
+            }
+            lblTotalMakanan.setText(Integer.toString(count));
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
 
 }
