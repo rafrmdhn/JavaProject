@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
+import db.BarangModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,10 +22,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import project_uap.Barang;
 
 public class dataBarangController implements Initializable{
+    BarangModel barang = new BarangModel();
     ObservableList<String> kategoriList = FXCollections.observableArrayList("Barang", "Makanan");
 
     @FXML
@@ -32,6 +35,9 @@ public class dataBarangController implements Initializable{
 
     @FXML
     private ComboBox<String> dropdownKategori;
+
+    @FXML
+    private Text lblTotalBarang;
 
     @FXML
     private TableView<Barang> tableAllDataProduk;
@@ -88,31 +94,11 @@ public class dataBarangController implements Initializable{
             }
         });
         showBarang();
-    }
-
-    public ObservableList<Barang> getProdukList(){
-        ObservableList<Barang> kategoriList = FXCollections.observableArrayList();
-        Connection CONN = getConnection();
-        String query = "SELECT Barang.barcode, Barang.nama_produk, Barang.harga, Barang.jumlah, Barang.expired, Barang.kategori FROM Barang";
-        Statement st;
-        ResultSet rs; 
-        
-        try{
-            st = CONN.createStatement();
-            rs = st.executeQuery(query);
-            Barang barang;
-            while(rs.next()){
-                barang = new Barang(rs.getString("nama_produk"),rs.getDouble("harga"), rs.getInt("jumlah"), rs.getString("barcode"), rs.getString("expired"), rs.getString("kategori"));
-                kategoriList.add(barang);
-            }
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-        return kategoriList;
+        totalBarang();
     }
 
     public void showBarang(){
-        ObservableList<Barang> list = getProdukList();
+        ObservableList<Barang> list = barang.getBarang();
         tblBarcode.setCellValueFactory(new PropertyValueFactory<Barang ,String>("barcode"));
         tblNamaProduk.setCellValueFactory(new PropertyValueFactory<Barang ,String>("nama_produk"));
         tblHargaProduk.setCellValueFactory(new PropertyValueFactory<Barang ,Double>("harga"));
@@ -121,5 +107,24 @@ public class dataBarangController implements Initializable{
         tblKategori.setCellValueFactory(new PropertyValueFactory<Barang ,String>("kategori"));
         
         tableAllDataProduk.setItems(list);
+    }
+
+    public void totalBarang(){
+        int count = 0;
+        String query = "SELECT * FROM Barang";
+        Connection CONN = getConnection();
+        Statement st;
+        ResultSet rs;
+
+        try{
+            st = CONN.createStatement();
+            rs = st.executeQuery(query);
+            while(rs.next()){
+                count++; 
+            }
+            lblTotalBarang.setText(Integer.toString(count));
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
 }
