@@ -27,6 +27,7 @@ public class homeInputController implements Initializable {
 
     @FXML
     void keluarAplikasi(ActionEvent event) {
+        System.out.println("Terima Kasih!");
         System.exit(0);
     }
 
