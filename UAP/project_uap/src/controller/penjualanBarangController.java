@@ -23,6 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import project_uap.Barang;
 
@@ -41,6 +42,9 @@ public class penjualanBarangController implements Initializable {
 
     @FXML
     private TextField fieldBarcode;
+
+    @FXML
+    private Text lblTotalHarga;
 
     @FXML
     private TableColumn<Barang, String> tblExp;
@@ -111,31 +115,11 @@ public class penjualanBarangController implements Initializable {
             }
         });
         showBarangPenjualan();
-    }
-
-    public ObservableList<Barang> getProdukList(){
-        ObservableList<Barang> kategoriList = FXCollections.observableArrayList();
-        Connection CONN = getConnection();
-        String query = "SELECT * FROM Barang";
-        Statement st;
-        ResultSet rs; 
-        
-        try{
-            st = CONN.createStatement();
-            rs = st.executeQuery(query);
-            Barang barang;
-            while(rs.next()){
-                barang = new Barang(rs.getString("nama_produk"),rs.getDouble("harga"), rs.getInt("jumlah"), rs.getDouble("diskon"), rs.getString("barcode"), rs.getString("expired"), rs.getString("kategori"));
-                kategoriList.add(barang);
-            }
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-        return kategoriList;
+        totalHarga();
     }
 
     public void showBarangPenjualan(){
-        ObservableList<Barang> list = getProdukList();
+        ObservableList<Barang> list = barang.getBarang();
         tblBarcode.setCellValueFactory(new PropertyValueFactory<Barang ,String>("barcode"));
         tblNamaBarangPenjualan.setCellValueFactory(new PropertyValueFactory<Barang ,String>("nama_produk"));
         tblHargaBarangPenjualan.setCellValueFactory(new PropertyValueFactory<Barang ,Double>("harga"));
@@ -145,5 +129,24 @@ public class penjualanBarangController implements Initializable {
         tblKategori.setCellValueFactory(new PropertyValueFactory<Barang ,String>("kategori"));
 
         tblBarangPenjualan.setItems(list);
+    }
+
+    public void totalHarga(){
+        int count = 0;
+        String query = "SELECT SUM(harga) AS harga FROM Barang;";
+        Connection CONN = getConnection();
+        Statement st;
+        ResultSet rs;
+
+        try{
+            st = CONN.createStatement();
+            rs = st.executeQuery(query);
+            while(rs.next()){
+                count += rs.getDouble("harga");
+            }
+            lblTotalHarga.setText(Double.toString(count));
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
 }
