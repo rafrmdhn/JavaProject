@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
+import db.ProdukModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,10 +22,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import project_uap.Produk;
 
 public class dataProdukController implements Initializable{
+    ProdukModel produk = new ProdukModel();
     ObservableList<String> kategoriList = FXCollections.observableArrayList("Barang", "Makanan");
 
     @FXML
@@ -32,6 +35,9 @@ public class dataProdukController implements Initializable{
 
     @FXML
     private ComboBox<String> dropdownKategori;
+
+    @FXML
+    private Text lblTotalProduk;
 
     @FXML
     private TableView<Produk> tableAllDataProduk;
@@ -88,35 +94,34 @@ public class dataProdukController implements Initializable{
                 } 
         });
         showProduk();
-    }
-
-    public ObservableList<Produk> getProdukList(){
-        ObservableList<Produk> kategoriList = FXCollections.observableArrayList();
-        Connection CONN = getConnection();
-        String query = "SELECT Makanan.nama_produk, Makanan.harga, Makanan.jumlah FROM Makanan UNION SELECT Barang.nama_produk, Barang.harga, Barang.jumlah FROM Barang;";
-        Statement st;
-        ResultSet rs; 
-        
-        try{
-            st = CONN.createStatement();
-            rs = st.executeQuery(query);
-            Produk produk;
-            while(rs.next()){
-                produk = new Produk(rs.getString("nama_produk"),rs.getDouble("harga"), rs.getInt("jumlah"));
-                kategoriList.add(produk);
-            }
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-        return kategoriList;
+        totalProduk();
     }
 
     public void showProduk(){
-        ObservableList<Produk> list = getProdukList();
+        ObservableList<Produk> list = produk.getProduk();
         tblNamaProduk.setCellValueFactory(new PropertyValueFactory<Produk ,String>("nama_produk"));
         tblHargaProduk.setCellValueFactory(new PropertyValueFactory<Produk ,Double>("harga"));
         tblJumlahProduk.setCellValueFactory(new PropertyValueFactory<Produk ,Integer>("jumlah"));
         
         tableAllDataProduk.setItems(list);
+    }
+
+    public void totalProduk(){
+        int count = 0;
+        String query = "SELECT Barang.nama_produk FROM Barang UNION SELECT Makanan.nama_produk FROM Makanan;";
+        Connection CONN = getConnection();
+        Statement st;
+        ResultSet rs;
+
+        try{
+            st = CONN.createStatement();
+            rs = st.executeQuery(query);
+            while(rs.next()){
+                count++; 
+            }
+            lblTotalProduk.setText(Integer.toString(count));
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
 }
