@@ -23,6 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import project_uap.Makanan;
 
@@ -41,6 +42,9 @@ public class penjualanMakananController implements Initializable{
 
     @FXML
     private TextField fieldId;
+
+    @FXML
+    private Text lblTotalHarga;
 
     @FXML
     private TableColumn<Makanan, Integer> tblDt;
@@ -108,31 +112,11 @@ public class penjualanMakananController implements Initializable{
             }
         });
         showMakananPenjualan();
-    }
-
-    public ObservableList<Makanan> getProdukList(){
-        ObservableList<Makanan> kategoriList = FXCollections.observableArrayList();
-        Connection CONN = getConnection();
-        String query = "SELECT * FROM Makanan";
-        Statement st;
-        ResultSet rs; 
-        
-        try{
-            st = CONN.createStatement();
-            rs = st.executeQuery(query);
-            Makanan makanan;
-            while(rs.next()){
-                makanan = new Makanan(rs.getString("nama_produk"),rs.getDouble("harga"), rs.getInt("jumlah"), rs.getDouble("diskon"), rs.getInt("id"), rs.getInt("daya_tahan"));
-                kategoriList.add(makanan);
-            }
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-        return kategoriList;
+        totalHarga();
     }
 
     public void showMakananPenjualan(){
-        ObservableList<Makanan> list = getProdukList();
+        ObservableList<Makanan> list = makanan.getMakanan();
         tblId.setCellValueFactory(new PropertyValueFactory<Makanan ,Integer>("id"));
         tblNamaMakananPenjualan.setCellValueFactory(new PropertyValueFactory<Makanan ,String>("nama_produk"));
         tblHargaMakananPenjualan.setCellValueFactory(new PropertyValueFactory<Makanan ,Double>("harga"));
@@ -141,5 +125,24 @@ public class penjualanMakananController implements Initializable{
         tblDiskon.setCellValueFactory(new PropertyValueFactory<Makanan ,Double>("diskon"));
         
         tblMakananPenjualan.setItems(list);
+    }
+
+    public void totalHarga(){
+        int count = 0;
+        String query = "SELECT SUM(harga) AS harga FROM Makanan;";
+        Connection CONN = getConnection();
+        Statement st;
+        ResultSet rs;
+
+        try{
+            st = CONN.createStatement();
+            rs = st.executeQuery(query);
+            while(rs.next()){
+                count += rs.getDouble("harga");
+            }
+            lblTotalHarga.setText(Double.toString(count));
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
 }
